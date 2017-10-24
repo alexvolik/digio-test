@@ -47,14 +47,14 @@ Tested system requirements:
 7. Provide the API responses also in XML format. Let the requester specify the desired format (XML or JSON) in the request header.
 8. Adapt the application to support multiple types of articles. Instead of just articles there are now 2 different types. Both should support comments and can be accessable with the routes for articles.
   * Scientific Paper with the following fields:
-    * title (string)
-    * content (text)
-    * author (string)
-    * institution (string)
+      - title (string)
+      - content (text)
+      - author (string)
+      - institution (string)
   * Reviews with the following fields:
-    * title (string)
-    * content (string)
-    * link (string)
+      - title (string)
+      - content (string)
+      - link (string)
 9. Refactor the code where you find it appropriate
 
 
