@@ -17,7 +17,7 @@ class ArticleController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository(Article::class);
         $articles = $repository->findAll();
-        $json = $this->get('serializer')->serialize($articles, 'json');
+        $json = $this->get('serializer')->serialize($articles, 'json', ['groups' => ['api']]);
         return JsonResponse::fromJsonString($json);
     }
 
@@ -34,7 +34,7 @@ class ArticleController extends Controller
                 'No article found for id '.$id
             );
         }
-        $json = $this->get('serializer')->serialize($article, 'json');
+        $json = $this->get('serializer')->serialize($article, 'json', ['groups' => ['api']]);
         return JsonResponse::fromJsonString($json);
     }
 

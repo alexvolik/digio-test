@@ -13,17 +13,20 @@ class CommentController extends Controller
 {
     /**
      * @Route("/api/comment", name="comments")
+     * @return JsonResponse
      */
     public function commentAction()
     {
         $repository = $this->getDoctrine()->getRepository(Comment::class);
         $comments = $repository->findAll();
-        $json = $this->get('serializer')->serialize($comments, 'json');
+        $json = $this->get('serializer')->serialize($comments, 'json', ['groups' => ['api']]);
         return JsonResponse::fromJsonString($json);
     }
 
     /**
      * @Route("/api/comment/{id}", name="commentId")
+     * @param $id
+     * @return JsonResponse
      */
     public function commentIdAction($id)
     {
@@ -35,7 +38,7 @@ class CommentController extends Controller
                 'No comment found for id '.$id
             );
         }
-        $json = $this->get('serializer')->serialize($comment, 'json');
+        $json = $this->get('serializer')->serialize($comment, 'json', ['groups' => ['api']]);
         return JsonResponse::fromJsonString($json);
     }
 
