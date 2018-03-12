@@ -17,7 +17,7 @@ class CommentController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository(Comment::class);
         $comments = $repository->findAll();
-        $json = $this->get('serializer')->serialize($comments, 'json', ['groups' => ['api']]);
+        $json = $this->get('serializer')->serialize($comments, 'json', ['groups' => ['comment']]);
         return JsonResponse::fromJsonString($json);
     }
 
@@ -36,7 +36,7 @@ class CommentController extends Controller
                 'No comment found for id '.$id
             );
         }
-        $json = $this->get('serializer')->serialize($comment, 'json', ['groups' => ['api']]);
+        $json = $this->get('serializer')->serialize($comment, 'json', ['groups' => ['comment']]);
         return JsonResponse::fromJsonString($json);
     }
 

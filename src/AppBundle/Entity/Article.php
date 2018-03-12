@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation as Serializer;
 
@@ -15,24 +16,34 @@ class Article
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @Serializer\Groups({"api"})
+     * @Serializer\Groups({"comment", "article"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
-     *
-     * @Serializer\Groups({"api"})
+     * @Serializer\Groups({"comment", "article"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     *
-     * @Serializer\Groups({"api"})
+     * @Serializer\Groups({"comment", "article"})
      */
     private $content;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="article")
+     * @Serializer\Groups({"article"})
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -47,6 +58,11 @@ class Article
     public function getContent()
     {
         return $this->content;
+    }
+
+    public function getComments()
+    {
+        return $this->comments;
     }
 
 }

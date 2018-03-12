@@ -15,29 +15,25 @@ class Comment
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @Serializer\Groups({"api"})
+     * @Serializer\Groups({"comment", "article"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
-     *
-     * @Serializer\Groups({"api"})
+     * @Serializer\Groups({"comment", "article"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     *
-     * @Serializer\Groups({"api"})
+     * @Serializer\Groups({"comment", "article"})
      */
     private $content;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Article")
-     *
-     * @Serializer\Groups({"api"})
+     * @Serializer\Groups({"comment"})
      */
     private $article;
 
