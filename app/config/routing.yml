@@ -2,3 +2,5 @@ app:
     resource: '@AppBundle/Controller/'
     type: annotation
     methods: ['GET']
+    defaults: {_format: json}
+    prefix:   /api/

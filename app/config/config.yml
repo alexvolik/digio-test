@@ -57,3 +57,36 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+
+fos_rest:
+    body_listener: true
+    param_fetcher_listener: force
+    view:
+        view_response_listener: true
+    serializer:
+        serialize_null: false
+    body_converter:
+        enabled: false
+    format_listener:
+        rules:
+            - { path: '^/api',  priorities: ['json', 'xml'], fallback_format: false, prefer_extension: true }
+    routing_loader:
+        default_format: json
+        include_format: false
+    exception:
+        enabled: true
+        codes:
+            Symfony\Component\Validator\Exception\ValidatorException: 400
+        messages:
+            Symfony\Component\HttpKernel\Exception\BadRequestHttpException: true
+
+jms_serializer:
+    metadata:
+        directories:
+            KnpPaginatorBundle:
+                namespace_prefix: Knp\Bundle\PaginatorBundle
+                path: '%kernel.root_dir%/config/serializer/KnpPaginatorBundle'
+            KnpPager:
+                namespace_prefix: Knp\Component\Pager
+                path: '%kernel.root_dir%/config/serializer/KnpPager'

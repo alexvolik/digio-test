@@ -2,6 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Comment;
+use AppBundle\Service\Paginator;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -10,21 +13,33 @@ use AppBundle\Entity\Article;
 class ArticleController extends Controller
 {
     /**
-     * @Route("/api/article", name="articles")
+     * @var Paginator
+     */
+    private $paginator;
+
+    public function __construct(Paginator $paginator)
+    {
+        $this->paginator = $paginator;
+    }
+
+    /**
+     * @Rest\Get("/article", name="articles")
+     * @Rest\View(serializerGroups={"article"})
      */
     public function articleAction()
     {
         $repository = $this->getDoctrine()->getRepository(Article::class);
-        $articles = $repository->findAll();
 
-        $json = $this->get('serializer')->serialize($articles, 'json', ['groups' => ['article']]);
-        return JsonResponse::fromJsonString($json);
+        return $this->paginator->paginate($repository->createQueryBuilder('article')->getQuery());
     }
 
     /**
-     * @Route("/api/article/{id}", name="articleId")
+     * @Route("/article/{id}", name="articleId")
+     *
+     * @Rest\View(serializerGroups={"article"})
      * @param $id
-     * @return JsonResponse
+     *
+     * @return Article|object
      */
     public function articleIdAction($id)
     {
@@ -36,8 +51,35 @@ class ArticleController extends Controller
                 'No article found for id '.$id
             );
         }
-        $json = $this->get('serializer')->serialize($article, 'json', ['groups' => ['article']]);
-        return JsonResponse::fromJsonString($json);
+        return $article;
+    }
+
+    /**
+     * @Route("/article/{id}/comments")
+     * @param $id
+     * @return \Knp\Component\Pager\Pagination\PaginationInterface
+     */
+    public function articleCommentsAction($id)
+    {
+        $articleRepository = $this->getDoctrine()->getRepository(Article::class);
+        $article = $articleRepository->find($id);
+
+        if (!$article) {
+            throw $this->createNotFoundException(
+                'No article found for id '.$id
+            );
+        }
+
+        $commentRepository = $this->getDoctrine()->getRepository(Comment::class);
+
+        $query = $commentRepository->createQueryBuilder('comment')
+            ->where('comment.article = :article')
+            ->setParameter('article', $article)
+            ->getQuery();
+
+        $comments = $this->paginator->paginate($query);
+
+        return $comments;
     }
 
 }

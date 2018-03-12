@@ -15,7 +15,10 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    AppBundle\EventListener\ExceptionListener:
+    AppBundle\EventListener\RequestListener:
+        arguments:
+              $defaultPerPage: '%default_pagination_per_page%'
         tags:
-            - { name: kernel.event_listener, event: kernel.exception }
+            - { name: kernel.event_listener, event: kernel.request }
+
 

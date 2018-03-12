@@ -1,0 +1,20 @@
+Knp\Component\Pager\Pagination\AbstractPagination:
+    exclusion_policy: ALL
+    properties:
+        items:
+            groups: ['article', 'comment']
+            access_type: public_method
+            accessor:
+                getter: getItems
+        currentPageNumber:
+            groups: ['article', 'comment']
+            serialized_name:
+                page
+        numItemsPerPage:
+            groups: ['article', 'comment']
+            serialized_name:
+                per_page
+        totalCount:
+            groups: ['article', 'comment']
+            serialized_name:
+                total

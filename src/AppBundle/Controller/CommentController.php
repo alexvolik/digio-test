@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Service\Paginator;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -10,21 +12,35 @@ use AppBundle\Entity\Comment;
 class CommentController extends Controller
 {
     /**
-     * @Route("/api/comment", name="comments")
-     * @return JsonResponse
+     * @var Paginator
+     */
+    private $paginator;
+
+    /**
+     * CommentController constructor.
+     * @param Paginator $paginator
+     */
+    public function __construct(Paginator $paginator)
+    {
+        $this->paginator = $paginator;
+    }
+
+    /**
+     * @Rest\Get("/comment", name="comments")
+     * @Rest\View(serializerGroups={"comment"})
      */
     public function commentAction()
     {
         $repository = $this->getDoctrine()->getRepository(Comment::class);
-        $comments = $repository->findAll();
-        $json = $this->get('serializer')->serialize($comments, 'json', ['groups' => ['comment']]);
-        return JsonResponse::fromJsonString($json);
+        return $this->paginator->paginate($repository->createQueryBuilder('comment')->getQuery());
     }
 
     /**
-     * @Route("/api/comment/{id}", name="commentId")
+     * @Rest\Get("/comment/{id}", name="commentId")
+     * @Rest\View(serializerGroups={"comment"})
      * @param $id
-     * @return JsonResponse
+     *
+     * @return Comment|object
      */
     public function commentIdAction($id)
     {
@@ -36,8 +52,7 @@ class CommentController extends Controller
                 'No comment found for id '.$id
             );
         }
-        $json = $this->get('serializer')->serialize($comment, 'json', ['groups' => ['comment']]);
-        return JsonResponse::fromJsonString($json);
-    }
 
+        return $comment;
+    }
 }
