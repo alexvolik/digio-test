@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Article;
 
@@ -23,6 +22,8 @@ class ArticleController extends Controller
 
     /**
      * @Route("/api/article/{id}", name="articleId")
+     * @param $id
+     * @return JsonResponse
      */
     public function articleIdAction($id)
     {
