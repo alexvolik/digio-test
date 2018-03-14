@@ -24,6 +24,8 @@ use JMS\Serializer\Annotation as Serializer;
 abstract class Article
 {
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -60,23 +62,66 @@ abstract class Article
         $this->comments = new ArrayCollection();
     }
 
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle()
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     * @return Article
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getContent()
     {
         return $this->content;
     }
 
+    /**
+     * @param string $content
+     * @return Article
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
     public function getComments()
     {
         return $this->comments;
     }
+
+    /**
+     * @param ArrayCollection $comments
+     * @return Article
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+    
 }

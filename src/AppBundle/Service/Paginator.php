@@ -2,7 +2,6 @@
 
 namespace AppBundle\Service;
 
-
 use Doctrine\ORM\Query;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;

@@ -28,6 +28,9 @@ class RequestListener
         $this->defaultPerPage = $defaultPerPage;
     }
 
+    /**
+     * @param KernelEvent $event
+     */
     public function onKernelRequest(KernelEvent $event)
     {
         $request = $event->getRequest();

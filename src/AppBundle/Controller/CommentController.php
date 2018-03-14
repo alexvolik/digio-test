@@ -4,9 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Service\Paginator;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Comment;
 
 class CommentController extends Controller
@@ -38,21 +36,12 @@ class CommentController extends Controller
     /**
      * @Rest\Get("/comment/{id}", name="commentId")
      * @Rest\View(serializerGroups={"comment"})
-     * @param $id
      *
+     * @param Comment $comment
      * @return Comment|object
      */
-    public function commentIdAction($id)
+    public function commentIdAction(Comment $comment)
     {
-        $repository = $this->getDoctrine()->getRepository(Comment::class);
-        $comment = $repository->find($id);
-
-        if (!$comment) {
-            throw $this->createNotFoundException(
-                'No comment found for id '.$id
-            );
-        }
-
         return $comment;
     }
 }
