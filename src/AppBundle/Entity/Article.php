@@ -9,9 +9,19 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type", type="string", length=30)
+ * @ORM\DiscriminatorMap({
+ *          "scientific_paper" = "ScientificPaper",
+ *          "review" = "ReviewArticle"
+ * })
+ * @Serializer\Discriminator(field = "type", disabled = false, map = {
+ *          "scientific_paper" = "AppBundle\Entity\ScientificPaper",
+ *          "review" = "AppBundle\Entity\ReviewArticle"
+ * }, groups={"comment", "article"})
  * @ORM\Table(name="article")
  */
-class Article
+abstract class Article
 {
     /**
      * @ORM\Column(type="integer")
@@ -22,12 +32,16 @@ class Article
     private $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=100)
      * @Serializer\Groups({"comment", "article"})
      */
     private $title;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="text")
      * @Serializer\Groups({"comment", "article"})
      */
@@ -65,5 +79,4 @@ class Article
     {
         return $this->comments;
     }
-
 }

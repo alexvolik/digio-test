@@ -65,7 +65,7 @@ fos_rest:
     view:
         view_response_listener: true
     serializer:
-        serialize_null: false
+        serialize_null: true
     body_converter:
         enabled: false
     format_listener:
@@ -90,3 +90,9 @@ jms_serializer:
             KnpPager:
                 namespace_prefix: Knp\Component\Pager
                 path: '%kernel.root_dir%/config/serializer/KnpPager'
+
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations

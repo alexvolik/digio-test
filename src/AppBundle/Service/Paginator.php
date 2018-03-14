@@ -64,7 +64,7 @@ class Paginator
      */
     public function setPage($page)
     {
-        $this->page = $page;
+        $this->page = abs($page);
         return $this;
     }
 
@@ -82,7 +82,7 @@ class Paginator
      */
     public function setPerPage($perPage)
     {
-        $this->perPage = $perPage;
+        $this->perPage = abs($perPage);
         return $this;
     }
 
